@@ -14,7 +14,7 @@ cd SMILE.jl
 
 Execute at the command line:
 ```
-julia -e 'using Pkg; Pkg.activate("."); Pkg.add(url="https://github.com/p2t2/Scruff.git", rev="development"); Pkg.instantiate(); Pkg.develop("Scruff")'
+julia -e 'using Pkg; Pkg.activate("."); Pkg.add(url="git@github.com:p2t2/Scruff.git", rev="development"); Pkg.instantiate(); Pkg.develop("Scruff")'
 ```
 This will instantiate your local Julia environment in that directory, as well as pull `Scruff` for use. The `develop` call puts a local copy of `Scruff` in your `HOME/.julia/dev` folder and checks out the `development` branch.
 

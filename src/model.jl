@@ -1,7 +1,6 @@
 function model()
     
     # Here's the model - nice + simple :)
-    purpose = Dict(1 => :distillation, 2 => :other)
     pa = Dict(1 => :present, 2 => :absent)
 
     lab_prior = [0.2, 0.8]

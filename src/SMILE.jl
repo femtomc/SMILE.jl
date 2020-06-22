@@ -31,6 +31,9 @@ function run(args)
                       9 => :round_neck_flask,
                       10 => :mercury_thermometer)
 
+    # Toplevel purpose.
+    purpose = Dict(1 => :distillation, 2 => :other)
+
     # Get priors.
     priors = Dict{Int, Float64}()
     map(eachrow(df)) do k
