@@ -14,7 +14,7 @@ cd SMILE.jl
 
 Execute at the command line (https):
 ```
-julia -e 'using Pkg; Pkg.activate("."); Pkg.add(url="https://github.com/femtomc/SMILE.jl.git", rev="2d51a04558ff52c20f283e18c6b77d9c43978513"); Pkg.instantiate(); Pkg.develop("Scruff")'
+julia -e 'using Pkg; Pkg.activate("."); Pkg.add(url="https://github.com/p2t2/Scruff.git", rev="2d51a04558ff52c20f283e18c6b77d9c43978513"); Pkg.instantiate(); Pkg.develop("Scruff")'
 ```
 
 or SSH:
