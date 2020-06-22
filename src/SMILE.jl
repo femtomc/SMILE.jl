@@ -66,7 +66,7 @@ function run(args)
     for (k, v) in priors
         l = label_dict[k]
         @info "Posting soft evidence to $l. Probability of presence is $v."
-        set_value!(runtime, instances[l], :evidence, Dict(0 => v, 1 => 1.0 - v))
+        set_value!(runtime, instances[l], :evidence, Dict([1 => v, 2 => 1.0 - v]))
     end
 
     # Perform BP.
