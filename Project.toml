@@ -1,0 +1,10 @@
+name = "SMILE"
+uuid = "a909d533-3ca7-40c0-8c55-7086548d45be"
+authors = ["McCoy R. Becker <mccoybecker@gmail.com>"]
+version = "0.1.0"
+
+[deps]
+CSV = "336ed68f-0bac-5ca0-87d4-7b16caf5d00b"
+DataFrames = "a93c6f00-e57d-5684-b7b6-d8193f3e46c0"
+Scruff = "7876af07-990d-54b4-ab0e-23690620f79a"
+TextParse = "e0df1984-e451-5cb5-8b61-797a481e67e3"
