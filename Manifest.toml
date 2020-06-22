@@ -676,7 +676,7 @@ version = "0.2.2+1"
 uuid = "ea8e919c-243c-51af-8825-aaa63cd721ce"
 
 [[Scruff]]
-deps = ["AbstractTrees", "Cassette", "DataStructures", "Dates", "Distributions", "LightGraphs", "LinearAlgebra", "Logging", "MLDatasets", "MetaGraphs", "Plots", "PrettyPrint", "Random", "Revise", "Serialization", "TensorOperations", "Test", "UUIDs"]
+deps = ["AbstractTrees", "CSV", "Cassette", "DataFrames", "DataStructures", "Dates", "Distributions", "LightGraphs", "LinearAlgebra", "Logging", "MLDatasets", "MetaGraphs", "Plots", "PrettyPrint", "Random", "Revise", "Serialization", "TensorOperations", "Test", "TextParse", "UUIDs"]
 path = "/home/mccoy/.julia/dev/Scruff"
 uuid = "7876af07-990d-54b4-ab0e-23690620f79a"
 version = "0.1.0"
