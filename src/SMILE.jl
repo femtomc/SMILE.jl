@@ -89,6 +89,14 @@ function run(args)
         "$(k) : $(get_value(runtime, v, :belief))\n"
     end
     @info "Posterior marginal beliefs.\n$(text...)"
+    likely_present = String[]
+    for (k, v) in collected
+        bel = get_value(runtime, v, :belief)
+        if bel[1] > 0.5
+            push!(likely_present, "$(k) : $(bel[1])\n")
+        end
+    end
+    @info "Probability of presence greater than 0.5.\n$(likely_present...)"
 end
 
 run(ARGS)

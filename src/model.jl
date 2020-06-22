@@ -3,53 +3,53 @@ function model()
     # Here's the model - nice + simple :)
     pa = Dict(1 => :present, 2 => :absent)
 
-    lab_prior = [0.2, 0.8]
+    lab_prior = [0.5, 0.5]
     lab_purpose = DiscreteRoot(lab_prior)(:lab_purpose)
 
     # Capabilities.
-    condensing = DiscreteCPD([[0.99, 0.01], [0.05, 0.95]])(:condensing)
-    distill_vessel = DiscreteCPD([[0.9, 0.1], [0.05, 0.95]])(:distill_vessel)
-    collection_vessel = DiscreteCPD([[0.6, 0.4], [0.45, 0.55]])(:collection_vessel)
-    heating = DiscreteCPD([[0.6, 0.4], [0.45, 0.55]])(:heating)
-    temp = DiscreteCPD([[0.6, 0.4], [0.45, 0.55]])(:temp)
-    separation = DiscreteCPD([[0.3, 0.7], [0.8, 0.2]])(:separation)
+    condensing = DiscreteCPD([[0.99, 0.01], [0.5, 0.5]])(:condensing)
+    distill_vessel = DiscreteCPD([[0.9, 0.1], [0.5, 0.5]])(:distill_vessel)
+    collection_vessel = DiscreteCPD([[0.7, 0.3], [0.5, 0.5]])(:collection_vessel)
+    heating = DiscreteCPD([[0.7, 0.3], [0.5, 0.5]])(:heating)
+    temp = DiscreteCPD([[0.7, 0.3], [0.5, 0.5]])(:temp)
+    separation = DiscreteCPD([[0.5, 0.5], [0.8, 0.2]])(:separation)
 
     # Implements.
     condenser = DiscreteCPD([[0.9, 0.1],
-                             [0.05, 0.95]])(:condenser)
+                             [0.5, 0.5]])(:condenser)
 
     three_neck_flask = DiscreteCPD([[0.5, 0.5],
-                                    [0.05, 0.95]])(:three_neck_flask)
+                                    [0.5, 0.5]])(:three_neck_flask)
 
     round_bottom_flask = DiscreteCPD([[0.99, 0.01],
                                       [0.8, 0.2],
                                       [0.8, 0.2],
-                                      [0.05, 0.95]]
+                                      [0.2, 0.8]]
                                     )(:round_neck_flask)
 
     erlenmeyer_flask = DiscreteCPD([[0.9, 0.1],
-                                    [0.05, 0.95]])(:erlenmeyer_flask)
+                                    [0.5, 0.5]])(:erlenmeyer_flask)
 
     beaker = DiscreteCPD([[0.9, 0.1],
-                          [0.05, 0.95]])(:beaker)
+                          [0.5, 0.5]])(:beaker)
 
     hot_plate = DiscreteCPD([[0.9, 0.1],
-                             [0.05, 0.95]])(:hot_plate)
+                             [0.5, 0.5]])(:hot_plate)
 
     heating_mantel = DiscreteCPD([[0.9, 0.1],
-                                  [0.05, 0.95]])(:heating_mantel)
+                                  [0.5, 0.5]])(:heating_mantel)
 
     bunsen = DiscreteCPD([[0.9, 0.1],
-                          [0.05, 0.95]])(:bunsen)
+                          [0.5, 0.5]])(:bunsen_burner)
 
     digital_thermo = DiscreteCPD([[0.9, 0.1],
-                                  [0.05, 0.95]])(:digital_thermometer)
+                                  [0.5, 0.5]])(:digital_thermometer)
 
     mercury_thermo = DiscreteCPD([[0.9, 0.1],
-                                  [0.2, 0.8]])(:mercury_thermometer)
+                                  [0.5, 0.5]])(:mercury_thermometer)
 
     separatory_funnel = DiscreteCPD([[0.9, 0.1],
-                                     [0.2, 0.8]])(:separatory_funnel)
+                                     [0.5, 0.5]])(:separatory_funnel)
 
     # Network + runtime.
     smile_network = Network(Tuple{}, Nothing)
