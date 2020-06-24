@@ -104,7 +104,7 @@ function object_detection_recall(predict_files::Vector{String}, label_files::Vec
     recall, sum(presence_recalls) / length(presence_recalls)
 end
 
-function model_recall(validation_dir::String, label_dir::String)
+function model_recall(validation_dir::String, label_dir::String; tol = 0.7)
     predict_files = readdir(validation_dir, join = true)
     label_files = readdir(label_dir, join = true)
 
@@ -185,7 +185,7 @@ function model_recall(validation_dir::String, label_dir::String)
         for (k, v) in collected
             belief = get_value(runtime, v, :belief)
             if haskey(num_dict, k)
-                if belief[1] > 0.8 && num_dict[k] in gt_set
+                if belief[1] > tol && num_dict[k] in gt_set
                     success += 1.0/length(gt_set)
                 end
             end
@@ -195,7 +195,7 @@ function model_recall(validation_dir::String, label_dir::String)
     sum(recalls) / length(recalls)
 end
 
-function model_recall(predict_files::Vector{String}, label_files::Vector{String})
+function model_recall(predict_files::Vector{String}, label_files::Vector{String}; tol = 0.7)
 
     # Model.
     label_dict = Dict(0 => :beaker, 
@@ -276,7 +276,7 @@ function model_recall(predict_files::Vector{String}, label_files::Vector{String}
             belief = get_value(runtime, v, :belief)
             push!(beliefs, "$(k) : $(belief)\n")
             if haskey(num_dict, k)
-                if belief[1] > 0.8 && num_dict[k] in gt_set
+                if belief[1] > tol && num_dict[k] in gt_set
                     success += 1.0/length(gt_set)
                 end
             end
@@ -286,15 +286,17 @@ function model_recall(predict_files::Vector{String}, label_files::Vector{String}
     sum(recalls) / length(recalls)
 end
 
+tol = 0.7
+
 # Compute.
 recall, presence_recall, zipped = object_detection_recall(ARGS[1], ARGS[2])
 gt, pred = unzip(zipped)
 println("Detector recall: $(recall)")
 println("Detector 'presence' recall: $(presence_recall)")
-println("Model total 'presence' recall: $(model_recall(ARGS[1], ARGS[2]))")
+println("Model total 'presence' recall: $(model_recall(ARGS[1], ARGS[2]; tol = tol))")
 recall, presence_recall = object_detection_recall(gt, pred)
 println("Detector recall on incorrect: $(recall)")
 println("Detector 'presence' recall on incorrect: $(presence_recall)")
-println("Model 'presence' recall on incorrect: $(model_recall(gt, pred))")
+println("Model 'presence' recall on incorrect: $(model_recall(gt, pred; tol = tol))")
 
 end # module
