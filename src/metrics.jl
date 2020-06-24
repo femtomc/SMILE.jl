@@ -17,11 +17,12 @@ unzip(a) = map(x->getfield.(a, x), fieldnames(eltype(a)))
 
 include("model.jl")
 
-function object_detection_recall(label_dir::String, validation_dir::String)
-    label_files = readdir(label_dir, join = true)
+function object_detection_recall(validation_dir::String, label_dir::String)
     predict_files = readdir(validation_dir, join = true)
+    label_files = readdir(label_dir, join = true)
     total = 0.0
     recall = 0.0
+    presence_recalls = Float64[]
     incorrect = Tuple{String, String}[]
     for (pl, l) in zip(predict_files, label_files)
         # Get ground truth.
@@ -33,6 +34,8 @@ function object_detection_recall(label_dir::String, validation_dir::String)
         pred_labels = map(eachrow(CSV.read(pl; header=["Label", "Probability"], datarow=1, delim = ' ', silencewarnings=true))) do k
             k[:Label]
         end
+
+        # Total recall.
         for (i, j) in zip(gt_labels, pred_labels)
             if i == j
                 recall += 1.0
@@ -42,14 +45,25 @@ function object_detection_recall(label_dir::String, validation_dir::String)
                 total += 1.0
             end
         end
+        
+        # Presence recall.
+        pr = 0.0
+        gt_set = Set(gt_labels)
+        for i in Set(pred_labels)
+            i in gt_set && begin
+                pr += 1.0/length(gt_set)
+            end
+        end
+        push!(presence_recalls, pr)
     end
     recall /= total
-    recall, collect(Set(incorrect))
+    recall, sum(presence_recalls) / length(presence_recalls), collect(Set(incorrect))
 end
 
-function object_detection_recall(label_files::Vector{String}, predict_files::Vector{String})
+function object_detection_recall(predict_files::Vector{String}, label_files::Vector{String})
     total = 0.0
     recall = 0.0
+    presence_recalls = Float64[]
     println("Recognition model misses on files:")
     for (pl, l) in zip(predict_files, label_files)
         # Get ground truth.
@@ -61,6 +75,8 @@ function object_detection_recall(label_files::Vector{String}, predict_files::Vec
         pred_labels = map(eachrow(CSV.read(pl; header=["Label", "Probability"], datarow=1, delim = ' ', silencewarnings=true))) do k
             k[:Label]
         end
+
+        # Total recall.
         len = length(gt_labels)
         local_total = 0.0
         for (i, j) in zip(gt_labels, pred_labels)
@@ -72,15 +88,25 @@ function object_detection_recall(label_files::Vector{String}, predict_files::Vec
                 total += 1.0
             end
         end
+
+        # Presence recall.
+        pr = 0.0
+        gt_set = Set(gt_labels)
+        for i in Set(pred_labels)
+            i in gt_set && begin
+                pr += 1.0/length(gt_set)
+            end
+        end
+        push!(presence_recalls, pr)
         println("$len : $(local_total / len) => $pl")
     end
     recall /= total
-    recall
+    recall, sum(presence_recalls) / length(presence_recalls)
 end
 
-function model_recall(label_dir::String, validation_dir::String)
-    label_files = readdir(label_dir, join = true)
+function model_recall(validation_dir::String, label_dir::String)
     predict_files = readdir(validation_dir, join = true)
+    label_files = readdir(label_dir, join = true)
 
     # Model.
     label_dict = Dict(0 => :beaker, 
@@ -169,7 +195,7 @@ function model_recall(label_dir::String, validation_dir::String)
     sum(recalls) / length(recalls)
 end
 
-function model_recall(label_files::Vector{String}, predict_files::Vector{String})
+function model_recall(predict_files::Vector{String}, label_files::Vector{String})
 
     # Model.
     label_dict = Dict(0 => :beaker, 
@@ -261,11 +287,14 @@ function model_recall(label_files::Vector{String}, predict_files::Vector{String}
 end
 
 # Compute.
-recall, zipped = object_detection_recall(ARGS[1], ARGS[2])
+recall, presence_recall, zipped = object_detection_recall(ARGS[1], ARGS[2])
 gt, pred = unzip(zipped)
 println("Detector recall: $(recall)")
+println("Detector 'presence' recall: $(presence_recall)")
 println("Model total 'presence' recall: $(model_recall(ARGS[1], ARGS[2]))")
-println("Detector recall on incorrect: $(object_detection_recall(gt, pred))")
-println("Model 'presence' on incorrect: $(model_recall(gt, pred))")
+recall, presence_recall = object_detection_recall(gt, pred)
+println("Detector recall on incorrect: $(recall)")
+println("Detector 'presence' recall on incorrect: $(presence_recall)")
+println("Model 'presence' recall on incorrect: $(model_recall(gt, pred))")
 
 end # module
