@@ -14,7 +14,7 @@ using DataFrames
 
 include("model.jl")
 
-function run(args)
+function run(args, tol = 0.7)
     isempty(args) && error("CommandLineArgsError: you haven't provided an input file path.")
 
     # Parsing.
@@ -92,11 +92,11 @@ function run(args)
     likely_present = String[]
     for (k, v) in collected
         bel = get_value(runtime, v, :belief)
-        if bel[1] > 0.5
+        if bel[1] > tol
             push!(likely_present, "$(k) : $(bel[1])\n")
         end
     end
-    @info "Probability of presence greater than 0.5.\n$(likely_present...)"
+    @info "Probability of presence greater than $tol.\n$(likely_present...)"
 end
 
 run(ARGS)
