@@ -30,3 +30,12 @@ julia --project=. src/SMILE.jl <your_txt_file>
 ```
 
 This points the model file at the text file and executes it.
+
+---
+
+Setup all together:
+```
+git clone https://github.com/femtomc/SMILE.jl
+cd SMILE.jl
+julia -e 'using Pkg; Pkg.activate("."); Pkg.add(url="https://github.com/p2t2/Scruff.git", rev="2d51a04558ff52c20f283e18c6b77d9c43978513"); Pkg.instantiate(); Pkg.develop("Scruff")'
+```
