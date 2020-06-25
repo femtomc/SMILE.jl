@@ -14,7 +14,7 @@ using DataFrames
 
 include("model.jl")
 
-function run(args, tol = 0.7)
+function run(args, tol = 0.8)
     isempty(args) && error("CommandLineArgsError: you haven't provided an input file path.")
 
     # Parsing.
@@ -70,7 +70,7 @@ function run(args, tol = 0.7)
     end
 
     # Perform BP.
-    loopybp(runtime)
+    loopybp(runtime; epsilon = 0.000001, maxiterations = 20)
 
     # Get updated beliefs for lab capability.
     belief = get_value(runtime, instances[:lab_purpose], :belief) 
@@ -83,7 +83,7 @@ function run(args, tol = 0.7)
     set_value!(runtime, instances[:lab_purpose], :evidence, max_index)
 
     # Propagate back down with BP.
-    Scruff.Algorithms.three_pass_BP(runtime)
+    loopybp(runtime)
 
     # Get new beliefs.
     text = map(collected) do (k, v)

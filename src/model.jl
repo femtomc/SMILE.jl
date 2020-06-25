@@ -16,7 +16,7 @@ function model()
 
     # Implements.
     condenser = DiscreteCPD([[0.9, 0.1],
-                             [0.5, 0.5]])(:condenser)
+                             [0.4, 0.6]])(:condenser)
 
     three_neck_flask = DiscreteCPD([[0.7, 0.3],
                                     [0.5, 0.5]])(:three_neck_flask)
@@ -31,7 +31,7 @@ function model()
                                     [0.5, 0.5]])(:erlenmeyer_flask)
 
     beaker = DiscreteCPD([[0.9, 0.1],
-                          [0.5, 0.5]])(:beaker)
+                          [0.4, 0.6]])(:beaker)
 
     hot_plate = DiscreteCPD([[0.9, 0.1],
                              [0.5, 0.5]])(:hot_plate)
@@ -42,10 +42,10 @@ function model()
     bunsen = DiscreteCPD([[0.9, 0.1],
                           [0.5, 0.5]])(:bunsen_burner)
 
-    digital_thermo = DiscreteCPD([[0.9, 0.1],
+    digital_thermo = DiscreteCPD([[0.95, 0.05],
                                   [0.5, 0.5]])(:digital_thermometer)
 
-    mercury_thermo = DiscreteCPD([[0.9, 0.1],
+    mercury_thermo = DiscreteCPD([[0.95, 0.05],
                                   [0.5, 0.5]])(:mercury_thermometer)
 
     separatory_funnel = DiscreteCPD([[0.9, 0.1],
