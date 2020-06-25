@@ -9,7 +9,7 @@ function model()
     # Capabilities.
     condensing = DiscreteCPD([[0.99, 0.01], [0.5, 0.5]])(:condensing)
     distill_vessel = DiscreteCPD([[0.9, 0.1], [0.5, 0.5]])(:distill_vessel)
-    collection_vessel = DiscreteCPD([[0.7, 0.3], [0.5, 0.5]])(:collection_vessel)
+    collection_vessel = DiscreteCPD([[0.7, 0.3], [0.4, 0.6]])(:collection_vessel)
     heating = DiscreteCPD([[0.7, 0.3], [0.5, 0.5]])(:heating)
     temp = DiscreteCPD([[0.7, 0.3], [0.5, 0.5]])(:temp)
     separation = DiscreteCPD([[0.5, 0.5], [0.8, 0.2]])(:separation)
@@ -18,7 +18,7 @@ function model()
     condenser = DiscreteCPD([[0.9, 0.1],
                              [0.5, 0.5]])(:condenser)
 
-    three_neck_flask = DiscreteCPD([[0.5, 0.5],
+    three_neck_flask = DiscreteCPD([[0.7, 0.3],
                                     [0.5, 0.5]])(:three_neck_flask)
 
     round_bottom_flask = DiscreteCPD([[0.99, 0.01],

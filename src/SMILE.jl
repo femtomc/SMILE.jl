@@ -60,7 +60,7 @@ function run(args, tol = 0.7)
     text = map(collected) do (k, v)
         "$(k) : $(get_params(v.var.definition))\n"
     end
-    @info "Priors.\n$(text...)"
+    #@info "Priors.\n$(text...)"
 
     # Set initial soft evidence (beliefs) from neural network output.
     for (k, v) in priors
@@ -74,6 +74,7 @@ function run(args, tol = 0.7)
 
     # Get updated beliefs for lab capability.
     belief = get_value(runtime, instances[:lab_purpose], :belief) 
+    @info "Posterior belief over purpose : $(belief)"
 
     # Set decision over what sort of lab it is.
     max_index = findall(a -> a .== maximum(belief), belief)[1]
@@ -89,14 +90,18 @@ function run(args, tol = 0.7)
         "$(k) : $(get_value(runtime, v, :belief))\n"
     end
     @info "Posterior marginal beliefs.\n$(text...)"
-    likely_present = String[]
+    likely_present = []
     for (k, v) in collected
         bel = get_value(runtime, v, :belief)
         if bel[1] > tol
-            push!(likely_present, "$(k) : $(bel[1])\n")
+            push!(likely_present, (k, bel[1]))
         end
     end
-    @info "Probability of presence greater than $tol.\n$(likely_present...)"
+    sort!(likely_present, by = x -> x[2]; rev = true)
+    stringify = map(likely_present) do (k, v)
+        "$k : $v\n"
+    end
+    @info "Probability of presence greater than $tol.\n$(stringify...)"
 end
 
 run(ARGS)
