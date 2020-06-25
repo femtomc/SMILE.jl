@@ -65,8 +65,10 @@ function run(args, tol = 0.8)
     # Set initial soft evidence (beliefs) from neural network output.
     for (k, v) in priors
         l = label_dict[k]
-        @info "Posting soft evidence to $l. Probability of presence is $v."
-        set_value!(runtime, instances[l], :evidence, Dict([1 => v, 2 => 1.0 - v]))
+        if v > 0.5
+            @info "Posting soft evidence to $l. Probability of presence is $v."
+            set_value!(runtime, instances[l], :evidence, Dict([1 => v, 2 => 1.0 - v]))
+        end
     end
 
     # Perform BP.

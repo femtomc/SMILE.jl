@@ -33,7 +33,7 @@ function model()
                           [0.4, 0.6]])(:beaker)
 
     hot_plate = DiscreteCPD([[0.9, 0.1],
-                             [0.5, 0.5]])(:hot_plate)
+                             [0.4, 0.6]])(:hot_plate)
 
     heating_mantel = DiscreteCPD([[0.9, 0.1],
                                   [0.5, 0.5]])(:heating_mantel)
